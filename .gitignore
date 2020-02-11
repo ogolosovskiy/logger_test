@@ -1,0 +1,23 @@
+# Ignore binaries.
+*.beam
+
+# Ignore crash dumps.
+*.dump
+
+# Ignore compiled C sources.
+*.o
+*.so
+
+# Ignore OSX internal files.
+.DS_Store
+
+# Ignore eunit test folder
+/.eunit/*
+
+rebar.lock
+_build
+
+c_src/cmake-build-debug/
+
+# IDEA
+.idea/
