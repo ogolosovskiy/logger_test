@@ -32,9 +32,6 @@ init([]) ->
                  period => 1},
     ChildSpecs = [],
 
-    ok = logger:add_handler(?MODULE, logger_std_h,
-        #{config => #{file => "/var/log/logger_test/logger.erl.log"}}),
-
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions
@@ -69,15 +66,16 @@ do_test() ->
     ok.
 
 do_lager(Level) ->
-    lager:set_loglevel(lager_file_backend, Level),
+    lager:set_loglevel({lager_file_backend, "/var/log/logger_test/lager.erl.log"}, Level),
     lager:warning("Set level ~p",[Level]),
-    [lager:debug("test ~p",[N]) || N <- lists:seq(1,100) ],
+    [lager:debug("test ~p ~p",[N, Level]) || N <- lists:seq(1,100) ],
     ok.
 
 do_erlogger(Level) ->
-
-    %%logger:update_handler_config(?MODULE, config, #{level => Level}),
+    %% logger:get_module_level(logger_test_app).
+    %% logger:get_handler_config(error_logger).
     logger:set_application_level(logger_test, Level),
-
-    [ logger:debug("test ~p",[N]) || N <- lists:seq(1,100) ],
+    logger:set_handler_config(error_logger, level, Level),
+    logger:set_primary_config(level,none),
+    [ logger:debug("test ~p ~p",[N, Level]) || N <- lists:seq(1,100) ],
     ok.
