@@ -1,4 +1,4 @@
-logger_test
+Erlang OTP 21 kernel logger test
 =====
 
 An OTP application
